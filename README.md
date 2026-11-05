@@ -2,6 +2,8 @@
 
 Die Einkaufsliste zum Abhaken: mit Barcode-Scanner, Spracheingabe und Teilen per WhatsApp. Läuft als installierbare Web-App, auch offline.
 
+**Bedienung der Liste:** Oben ins Feld „Artikel hinzufügen“ tippen. In der Liste hakt das **Kästchen** vorne einen Artikel ab (oder nach rechts wischen); **Tippen auf den Namen** (oder ⋯) öffnet „Bearbeiten“ für Menge, Notiz, Preis, Laden und Platz im Markt. Im **Einkaufsmodus** gibt es kein Bearbeiten – dort hakt jedes Tippen auf die Zeile ab.
+
 ## Auf GitHub Pages veröffentlichen
 
 1. Auf github.com ein neues Repository anlegen, z. B. `einkaufsliste` (Public).
@@ -213,7 +215,7 @@ Jede bestehende Liste lässt sich umstellen: Listen → ⋯ bei der Liste → �
 
 ## Tipps beim ersten Start
 
-Beim ersten Start fragt die App, ob sie kurz zeigen soll, wie alles funktioniert. Die Tour zeigt in 10 Schritten die Grundlagen der Liste, den Laufweg und das Teilen einer Liste und führt Eintragen und Abhaken mit Beispiel-Artikeln vor. Die Beispiel-Artikel verschwinden am Ende wieder. Erneut starten: Einstellungen → „Tipps zur Bedienung“.
+Beim ersten Start fragt die App, ob sie kurz zeigen soll, wie alles funktioniert. Die Tour zeigt in 11 Schritten die Grundlagen der Liste, den Laufweg und das Teilen einer Liste und führt Eintragen und Abhaken mit Beispiel-Artikeln vor. Die Beispiel-Artikel verschwinden am Ende wieder. Erneut starten: Einstellungen → „Tipps zur Bedienung“.
 
 Beim ersten Öffnen von „Reihenfolge im Markt“ bietet die App eine eigene kurze Einführung an (6 Schritte: Bereiche, Verschieben, Pfeile, Speichern, eigene Filiale, Lernen beim Abhaken). Später jederzeit über „Kurz erklären“ im selben Fenster.
 
@@ -241,7 +243,7 @@ Die beiden Einträge lassen sich meist auch als eigenes Symbol auf den Home-Bild
 
 ## Updates
 
-Nach Änderungen an `index.html` in `sw.js` die Zeile `const VERSION = "einkaufsliste-v38";` hochzählen (v39, v40 …). Dann holen sich installierte Apps die neue Version.
+Nach Änderungen an `index.html` in `sw.js` die Zeile `const VERSION = "einkaufsliste-v39";` hochzählen (v40, v41 …). Dann holen sich installierte Apps die neue Version.
 
 Unter Menü → „Einstellungen“ → „Updates“ stellst du ein, wie das passiert:
 - **Auf Nachfrage (Standard):** Oben erscheint „Eine neue Version ist da“, und erst nach „Aktualisieren“ wird gewechselt. Mit ✕ blendest du den Hinweis bis zum nächsten Start aus, ohne zu aktualisieren. Aktualisieren geht dann jederzeit unter Einstellungen → Updates. Die bisherige Version bleibt auch dann, wenn du die App zwischendurch ganz schließt.

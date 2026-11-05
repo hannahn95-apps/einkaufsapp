@@ -302,6 +302,7 @@ ul.items li:first-child{border-top:0}
 .iico{flex:0 0 auto;font-size:calc(20px*var(--fs));line-height:1;margin-right:-4px;width:1.3em;text-align:center}
 li.done .iico{opacity:.45;filter:grayscale(1)}
 .qty{flex:0 0 auto;background:var(--tag);color:var(--tag-fg);font-weight:700;font-size:calc(14px*var(--fs));border-radius:4px;padding:2px 8px;font-variant-numeric:tabular-nums}
+body.shopmode .more{display:none}
 .more{flex:0 0 auto;width:44px;height:48px;border:0;background:none;color:var(--muted);font-size:calc(20px*var(--fs));border-radius:8px;opacity:.5}
 .more:hover,.more:focus-visible{opacity:1}
 li.done .box{background:var(--aisle)}
@@ -509,7 +510,7 @@ body.shopmode .sub .store svg:last-child{display:none}
   <form class="add" id="addForm" autocomplete="off" role="search">
     <div class="inwrap">
       <svg class="lupe" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg>
-      <input id="addInput" type="search" placeholder="Artikel suchen" aria-label="Artikel suchen oder eingeben" enterkeyhint="done" autocapitalize="sentences">
+      <input id="addInput" type="search" placeholder="Artikel hinzufügen" aria-label="Artikel hinzufügen oder suchen" enterkeyhint="done" autocapitalize="sentences">
       <button class="mic" id="micBtn" type="button" aria-label="Spracheingabe" aria-pressed="false" hidden>
         <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21M8.5 21h7"/></svg>
       </button>
@@ -1947,7 +1948,13 @@ $("list").addEventListener("click", e=>{
   if (act==="cleardone"){ clearDone(); return; }
   if (swipeJustEnded) return;
   const li = b.closest("li"); const id = li && li.dataset.id; const it = state.items[id]; if (!it) return;
-  if (act==="toggle") toggleItem(id);
+  if (act==="toggle"){
+    // Normal: nur das Kästchen (und der Rand davor) hakt ab, Tippen auf den Namen öffnet „Bearbeiten“.
+    // Einkaufsmodus: jedes Tippen auf die Zeile hakt ab. Tastatur (Enter/Leertaste) hakt immer ab.
+    const box = b.querySelector(".box"), r = box && box.getBoundingClientRect();
+    const onBox = !e.detail || !r || e.clientX <= r.right + 12;
+    if (shopOn || onBox) toggleItem(id); else openEdit(id);
+  }
   if (act==="edit") openEdit(id);
 });
 function toggleItem(id){
@@ -3551,10 +3558,10 @@ function openSupport(){
 const TOUR_STEPS = [
   {sel:".add", t:"<b>Eintragen</b>Tippe ein, was fehlt. Mehrere Sachen gehen in einem Rutsch – auch ohne Komma.", demo:"type"},
   {sel:"#list", t:"<b>Automatisch sortiert</b>Die App erkennt die Kategorie und sortiert alles so, wie du durch den Markt läufst."},
-  {sel:"#list ul.items li .tick", t:"<b>Abhaken</b>Antippen oder nach rechts wischen – der Artikel wandert in den Wagen. Nach links wischen löscht ihn.", demo:"tick"},
+  {sel:"#list ul.items li .tick .box", t:"<b>Abhaken</b>Kästchen antippen oder nach rechts wischen – der Artikel wandert in den Wagen. Nach links wischen löscht ihn.", demo:"tick"},
   {sel:".cart", t:"<b>Dein Laufweg</b>Beim Abhaken merkt sich die App, in welcher Reihenfolge du durch den Laden gehst. Am Ende bietet sie an, diese Reihenfolge für deinen Markt zu übernehmen – so wird die Liste jedes Mal passender."},
   {sel:"#shopBtn", when:()=>shopCfg, demo:"shop", t:"<b>Einkaufsmodus</b>Im Laden oben auf den Wagen tippen: große Schrift, nur die offenen Artikel, das Display bleibt an. Beim Beenden fragt die App, ob sie deinen Weg übernehmen soll – auch wenn es mal etwas nicht gab."},
-  {sel:"#list ul.items li .more", t:"<b>Menge und Notiz</b>Über ⋯ änderst du einen Artikel, z. B. Menge oder Notiz."},
+  {sel:"#list ul.items li .label", t:"<b>Menge und Notiz</b>Tippe auf den Namen, um einen Artikel zu ändern, z. B. Menge oder Notiz. Im Einkaufsmodus hakt dagegen jedes Tippen ab."},
   {sel:"#micBtn:not([hidden]), #scanBtn", all:true, t:"<b>Sprechen & Scannen</b>Mit dem Mikrofon diktierst du die Liste, daneben scannst du Barcodes."},
   {sel:"#storeChip:not([hidden]), #shopsChip:not([hidden])", t:"<b>Dein Markt</b>Wähle Art und Name deines Markts – die Sortierung passt sich an."},
   {sel:"#listBtn", t:"<b>Mehrere Listen</b>Tippe auf den Titel, um Listen zu wechseln oder neue anzulegen."},
